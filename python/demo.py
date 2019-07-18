@@ -17,11 +17,13 @@ while True:
     dataline = arduino.readline().decode().rstrip();
     if (dataline):
         print("json:", dataline);
-        j = json.loads(dataline);
+        try:
+            j = json.loads(dataline);
+            print(j);
 
-        print(j);
-
-        url = 'http://localhost/drone-data/frontend/web/api/push';
-        data = {'data': dataline};
-        response = requests.post(url, data=data)
-        print(response.text);
+            url = 'http://localhost/drone-data/frontend/web/api/push';
+            data = {'data': dataline};
+            response = requests.post(url, data=data)
+            print(response.text);
+        except Exception as e:
+            print('Decoding JSON has failed')
